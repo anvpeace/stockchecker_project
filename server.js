@@ -21,7 +21,7 @@ var time = 90*24*60*60;
 app.use(helmet.hsts({maxAge: time, force: true}))
 
 app.use(helmet.noCache());
-app.use(helmet.contentSecurityPolicy({directives:{defaultSrc:["'self'"], styleSrc: ["'self'", 'style.com']}}))
+app.use(helmet.contentSecurityPolicy({directives:{defaultSrc:["'self'"], styleSrc: ["'self'", 'style.css']}}))
 
 
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -31,12 +31,24 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(function (req, res, next) {
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, content-type, Accept",
+  });
+  app.disable("x-powered-by");
+  next();
+});
+
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
     res.sendFile(process.cwd() + '/views/index.html');
+    
   });
 
+  
 //For FCC testing purposes
 fccTestingRoutes(app);
 
