@@ -21,7 +21,7 @@ var time = 90*24*60*60;
 app.use(helmet.hsts({maxAge: time, force: true}))
 
 app.use(helmet.noCache());
-app.use(helmet.contentSecurityPolicy({directives:{defaultSrc:["'self'"], scriptSrc: ["'self'", 'trusted-cdn.com']}}))
+app.use(helmet.contentSecurityPolicy({directives:{defaultSrc:["'self'"], styleSrc: ["'self'", 'style.com']}}))
 
 
 app.use('/public', express.static(process.cwd() + '/public'));
